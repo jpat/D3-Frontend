@@ -1,0 +1,63 @@
+<!-- Based on https://gist.github.com/almccon/fb125b016b5c9afad99b -->
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript" src="MapDisplay.js"></script>
+
+    <form id="form" name="form" action="" method="post">
+        <label for="firstname">Name</label>
+        <input name="firstname" id="firstname" type="text">
+        <label for="year">Year</label>
+        <input name="year" id="year" type="text">
+        <input type="submit" value="Submit">
+    </form>
+
+<script>
+
+    var backendData;
+    var myForm = document.getElementById('form');
+    myForm.onsubmit = function (event) {
+        event.preventDefault();
+        httpGetAsync(this);
+    };
+
+    function httpGetAsync(form, theUrl, callback)
+    {
+        var url="http://localhost:8080/get-frequency";
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            //callback(xmlHttp.responseText);
+                storeData(xmlHttp.responseText);
+        };
+
+        xmlHttp.open("POST", url, true); // true for asynchronous
+        xmlHttp.setRequestHeader("Content-Type", "text/html");
+        <!--xmlHttp.setRequestHeader("Origin", "http://localhost:63342");-->
+        <!--xmlHttp.setRequestHeader("Access-Control-Request-Method", "POST");-->
+
+        //var formElement = document.querySelector('form');
+        var formData = new FormData();
+        formData.append("name", "Steve");
+        xmlHttp.send(formData);
+    }
+
+    function storeData(data){
+        backendData = parseData(data);
+    }
+
+    function parseData(data){
+        var parsed = JSON.parse(data);
+        parsed.forEach(function(state){
+            console.log(state);
+        });
+        return parsed;
+    }
+</script>
+
+</body>

@@ -1,0 +1,22 @@
+
+.overlay {
+        fill: none;
+        pointer-events: all;
+    }
+
+.state {
+    /*fill: red;*/
+}
+
+.county-border,
+.state-border {
+    fill: none;
+    stroke: #fff;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+.state.selected {
+    fill: orange;
+    stroke: #000;
+}
